@@ -1,24 +1,26 @@
 package main
-import "fmt"
 
-func main() {
-    ch := make(chan int)
-    go func() {
-        // Хотим отправить 3 числа
-        ch <- 1
-        ch <- 2
-        ch <- 3
-        close(ch) 
-    }()
+import (
+	"fmt"
+	"sync"
+)
 
-    // Пытаемся прочитать больше, чем отправили
-    fmt.Println(<-ch)
-    fmt.Println(<-ch)
-    fmt.Println(<-ch)
+func main(){
+	var wg sync.WaitGroup
+	wg.Add(3)
 
-	v, ok := <- ch
-	if !ok{
-		fmt.Println("Канал закрыт.")
-	}
-    fmt.Println(v) // <-- Что тут произойдет и почему? Исправьте, используя v, ok
+	go func(){
+		defer wg.Done()
+		fmt.Println("Горутина 1: Привет!")
+	}()
+	go func(){
+		defer wg.Done()
+		fmt.Println("Горутина 2: Мир!")
+	}()
+	go func(){
+		defer wg.Done()
+		fmt.Println("Горутина 3: Golang!")
+	}()
+
+	wg.Wait()
 }
