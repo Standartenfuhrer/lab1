@@ -1,20 +1,20 @@
 package main
 
 import (
-    "fmt"
-    "time"
+	"fmt"
+	"time"
 )
 
 // printNumbers печатает числа от 1 до n с небольшими паузами
 func printNumbers(id int, n int) {
-	for i := id; i <= n; i++{
+	for i := id; i <= n; i++ {
 		fmt.Printf("Worker %d: number %d\n", id, i)
 		time.Sleep(100 * time.Millisecond)
 	}
 }
 
 func main() {
-    fmt.Println("Start lab1")
+	fmt.Println("Start lab1")
 
 	go printNumbers(1, 5)
 	go printNumbers(2, 5)
@@ -24,8 +24,9 @@ func main() {
 
 	time.Sleep(1 * time.Second)
 
-    fmt.Println("End lab1")
+	fmt.Println("End lab1")
 }
+
 //Не все строки успевают напечататься за 100 миллисекунд
 //Не все числа от 1 до 5 для каждого id видны за 100 миллисекунд
 //time.Sleep ненадежный способ ожидания загрузки горутин, потому что мы не знаем
