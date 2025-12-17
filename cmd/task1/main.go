@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+<<<<<<< HEAD
 	"time"
 )
 
@@ -17,4 +18,20 @@ func main() {
 	fmt.Println("Start lab1")
 	go printNumbers(1, 5)
 	fmt.Println("End lab1")
+=======
+	
+)
+
+func main() {
+   a := map[string]string{
+      "asfaf": "asds",
+      "tams": "azam",
+      "misha": "cyka",
+      "Linda": "lin",
+   }
+
+   for name, val := range a{
+      fmt.Println(name, val)
+   }
+>>>>>>> 436fed9bf1941acdd224b531a89c7c8a75f41385
 }
