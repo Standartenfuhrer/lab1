@@ -13,6 +13,7 @@ type Job struct{
 
 type Result struct{
 	JobID    int
+	InputNum int
 	Square    int
 	Perimeter int
 	WorkerID int
@@ -26,7 +27,7 @@ func worker(id int, jobs <- chan Job, results chan <- Result, wg *sync.WaitGroup
 	for job := range jobs{
 		square := job.Number * job.Number
 		perimeter := 4 * job.Number
-		results <- Result{JobID: job.ID, Square: square, Perimeter: perimeter, WorkerID: id}
+		results <- Result{JobID: job.ID, InputNum: job.Number, Square: square, Perimeter: perimeter, WorkerID: id}
 	}
 
 	fmt.Printf("Воркер %d закончил смену\n", id)
@@ -48,10 +49,10 @@ func main(){
 
 	go func()  {
 		fmt.Println("Начинаем отправку задач")
-		for j := 1; j <= len(inputs); j++ {
+		for i, val := range inputs{
 			jobs <- Job{
-				ID:     j,
-				Number: j,
+				ID:     i+1,
+				Number: val,
 			}
 			time.Sleep(100 * time.Millisecond)
 		}
@@ -66,7 +67,7 @@ func main(){
 	
 	for res := range results {
 		fmt.Printf("Задача %d: %d^2 = %d, 4 * %d = %d (Считал воркер %d)\n",
-			res.JobID, res.JobID, res.Square, res.JobID, res.Perimeter, res.WorkerID)
+			res.JobID, res.InputNum, res.Square, res.InputNum, res.Perimeter, res.WorkerID)
 	}
 
 	fmt.Println("Все задачи выполнены. Работа завершена.")
