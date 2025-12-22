@@ -5,35 +5,35 @@ import (
 	"time"
 )
 
-func newsFeed(ch chan <- string){
-	for i := 0; i < 5; i++{
+func newsFeed(ch chan<- string) {
+	for i := 0; i < 5; i++ {
 		time.Sleep(1 * time.Second)
-		ch <- "эщкереее"
+		ch <- "длвввв"
 	}
 }
 
-func socialMedia(ch chan <- string){
-	for i := 0; i < 5; i++{
+func socialMedia(ch chan<- string) {
+	for i := 0; i < 5; i++ {
 		time.Sleep(2500 * time.Millisecond)
-		ch <- "не эщкере."
+		ch <- "непр."
 	}
 }
 
-func main(){
+func main() {
 	news := make(chan string)
 	media := make(chan string)
 
 	go newsFeed(news)
 	go socialMedia(media)
-	
+
 	timeout := time.After(5 * time.Second)
 	for {
-		select{
-		case msg := <- news:
+		select {
+		case msg := <-news:
 			fmt.Println("Новости:", msg)
-		case msg := <- media:
+		case msg := <-media:
 			fmt.Println("Соцсети:", msg)
-		case <- timeout:
+		case <-timeout:
 			fmt.Println("Время вышло, выключаемся")
 			return
 		default:
