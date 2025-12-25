@@ -15,13 +15,16 @@ type Order struct{
 func generateOrders(count int) <- chan Order{
 	out := make(chan Order)
 
-	for i := 1; i <= count; i++{
-		out <- Order{
-			ID: i,
-			Amount: rand.Intn(10000),
-			Status: "new",
+	go func(){
+		defer close(out)
+		for i := 1; i <= count; i++{
+			out <- Order{
+				ID: i,
+				Amount: rand.Intn(10000),
+				Status: "new",
+			}
 		}
-	}
+	}()
 	return out
 }
 
@@ -61,12 +64,14 @@ func processOrders(in <- chan Order) <- chan Order{
 func filterOrders(in <- chan Order, minAmount int) <- chan Order{
 	out := make(chan Order)
 
-	for c := range in{
-		if minAmount < c.Amount{
-			out <- c
+	go func(){
+		defer close(out)
+		for c := range in{
+			if minAmount < c.Amount{
+				out <- c
+			}
 		}
-	}
-
+	}()
 	return out
 }
 
