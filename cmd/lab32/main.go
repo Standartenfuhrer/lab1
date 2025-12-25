@@ -53,7 +53,6 @@ func processOrders(in <- chan Order) <- chan Order{
 			out <- c
 		}
 	}()
-
 	go func(){
 		wg.Wait()
 		close(out)
